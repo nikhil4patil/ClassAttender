@@ -1,1 +1,5 @@
-ML, 05:30 PM, Tue Thu, https://utdallas.webex.com/meet/kkhan
+# ClassName, ClassTime 12 hr clock AM/PM, Days 3 letter, Session links, <Any additional details you want to work with>
+
+ALGO, 08:30 AM, Tue Thu, https://elearning.utdallas.edu/webapps/collab-ultra/tool/collabultra?<course_id and stuff>, <Extra details>
+SPED, 10:00 AM, Mon Wed, <link/to/the/session>
+ML, 05:30 PM, Tue Thu, https://utdallas.webex.com/meet/<amazing prof>
