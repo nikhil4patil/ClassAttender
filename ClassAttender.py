@@ -1,3 +1,19 @@
+"""
+    Author: Nikhil Patil
+    Project: ClassAttender
+    Purpose:
+        We love efficiency. Being a software engineer and someone who likes to have fun, I created this project
+    to allow me to sleep in or play games until the last minute possible. And also to ensure that I don't forget to
+    attend my class sessions.
+
+    Code:
+        1) Read the classes.txt file to find the time and day of my classes. Along with the link and any other details.
+        2) Create a batch file that will be executed by the Task Scheduler to run this script
+        3) Create tasks in the Task Scheduler that runs the batch script whenever one of your sessions is about to begin
+        4) When executed, this script will check if any of your classes are about to begin in 3 minutes or began 3
+           minutes ago. If so, the script will launch the site and join the live session for you.
+"""
+
 import os
 import subprocess
 from datetime import datetime
@@ -90,6 +106,10 @@ def getClasses(filePath="classes.txt"):
         for line in file.readlines():
             line.replace('\n', '')
             info = line.split(", ")
+
+            # Allow some comments in the classes.txt file
+            if '#' in info[0] or '//' in info[0] or len(info) < 4:
+                continue
 
             # Get the class name. Used while creating task later
             className = info[0]
