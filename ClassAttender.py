@@ -32,9 +32,8 @@ chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 python_path = r'C:\ProgramData\Anaconda3\python.exe'
 
 
-# Takes a screenshot of the screen, and finds the specified sub-image after sleeping for a bit
-def findAndClick(findSS="", zzz=3):
-    sleep(zzz)
+# Takes a screenshot of the screen, find the specified sub-image in the screenshot, click it
+def findAndClick(findSS=""):
     screen = pyautogui.screenshot()
     # Save the screenshot as screenshot.png
     screen.save(r'screenshot.png')
@@ -76,27 +75,34 @@ def openClass(info):
     if 'elearning' in info[0]:
         # Open the elearning page
         webbrowser.get(chrome_path).open('https://elearning.utdallas.edu')
+
+        sleep(3) # Wait for page to load. Sleep for 3 seconds
         # Click Login if on the login screen
-        findAndClick('elearningLogin.png', 3)
+        findAndClick('elearningLogin.png')
+
         sleep(2)  # Wait for authentication
         # Launch the session link
         webbrowser.get(chrome_path).open(info[0])
 
         # For the professors that created Regular class sessions
         if 'Regular' in info:
+            sleep(5)
             # Find and click on the regular class icon
-            findAndClick('regularClass.png', 5)
+            findAndClick('regularClass.png')
         else:
+            sleep(5)
             # Find the course room button
-            findAndClick('courseRoom.png', 5)
+            findAndClick('courseRoom.png')
+            sleep(1)
             # Find the join room button
-            findAndClick('joinCourseRoom.png', 1)
+            findAndClick('joinCourseRoom.png')
     # For webex meetings
     elif 'webex' in info[0]:
         # Go to the link
         webbrowser.get(chrome_path).open(info[0])
+        sleep(10) # Wait for WebEx web client to load
         # Find the join meeting button and start session
-        findAndClick('webexJoinMeeting.png', 10)
+        findAndClick('webexJoinMeeting.png')
 
 
 # Get the class schedule
