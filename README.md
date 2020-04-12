@@ -1,9 +1,7 @@
-# ClassAttender
-Schedules a task using the Task Scheduler to launch the live session to attend classes
 Brilliant but borderline lazy genius who wrote this: Nikhil Patil :)
 
 This script will only create Tasks in the Task Scheduler if it's running on a Windows machine.
-For Linux and OSX, the script will need to be executed manually.
+For any other OS, the script will be executed continuously in the background.
 
 This file contains the info on how to make the ClassAttender.py run from scratch.
 A) Install Python and Anaconda
@@ -23,7 +21,7 @@ B) Update Python path
     2) Enter "where python" in the cmd and hit enter
     3) In the output, there should be one or multiple lines showing you where python.exe file is stored
     4) Find the line that has Anaconda in it and copy that entire line (the absolute path)
-    5) Open ClassAttender.py file and replace the python_path variable (around line 34)
+    5) Open ClassAttender.py file and replace the python_path variable (around line 30)
         5.1) The line should be updated to: python_path = r'<the absolute path you found>'
 
 B.2) Update Chrome path
@@ -38,4 +36,15 @@ C) Install Python Libraries
         2.1) pip install opencv-python
         2.2) pip install pyautogui
 
-D) Update the openClass functions based on your needs!
+D) Change openClass as you see fit. The general flow is:
+    1) Launch a web page
+    2) Sleep for it to load
+    3) Tell findAndClick("image_or_button_to_find") to find and click something
+
+
+Sources used:
+    Template Matching:
+        https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_template_matching/py_template_matching.html
+    Task Scheduler from CMD:
+        https://www.windowscentral.com/how-create-task-using-task-scheduler-command-prompt
+        https://docs.microsoft.com/en-us/windows/win32/taskschd/schtasks
