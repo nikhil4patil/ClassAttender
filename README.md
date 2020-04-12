@@ -1,3 +1,4 @@
+# Class Attender
 Brilliant but borderline lazy genius who wrote this: Nikhil Patil :)
 
 This script will only create Tasks in the Task Scheduler if it's running on a Windows machine.
