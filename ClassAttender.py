@@ -21,15 +21,53 @@ import cv2
 import pyautogui
 import webbrowser
 from time import sleep
+import platform
+
 
 # Get the current time
 currTime = datetime.now()
 # Find today: MON, TUE, WED, THU, FRI, SAT, SUN
 today = currTime.strftime("%a").upper()
 # Define the path to chrome exe
-chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+browser_path = r'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 # Path to python
 python_path = r'C:\ProgramData\Anaconda3\python.exe'
+
+
+# Launches the session
+def openClass(info):
+    # For elearning collaborate session
+    if 'elearning' in info[0]:
+        # Open the elearning page
+        webbrowser.get(browser_path).open('https://elearning.utdallas.edu')
+
+        sleep(3) # Wait for page to load. Sleep for 3 seconds
+        # Click Login if on the login screen
+        findAndClick('elearningLogin.png')
+
+        sleep(2)  # Wait for authentication
+        # Launch the session link
+        webbrowser.get(browser_path).open(info[0])
+
+        # For the professors that created Regular class sessions
+        if 'Regular' in info:
+            sleep(5)
+            # Find and click on the regular class icon
+            findAndClick('regularClass.png')
+        else:
+            sleep(5)
+            # Find the course room button
+            findAndClick('courseRoom.png')
+            sleep(1)
+            # Find the join room button
+            findAndClick('joinCourseRoom.png')
+    # For webex meetings
+    elif 'webex' in info[0]:
+        # Go to the link
+        webbrowser.get(browser_path).open(info[0])
+        sleep(10) # Wait for WebEx web client to load
+        # Find the join meeting button and start session
+        findAndClick('webexJoinMeeting.png')
 
 
 # Takes a screenshot of the screen, find the specified sub-image in the screenshot, click it
@@ -67,42 +105,6 @@ def findAndClick(findSS=""):
     pyautogui.moveTo(*button_center, duration=0.5)
     # Press the button
     pyautogui.click(*button_center)
-
-
-# Launches the session
-def openClass(info):
-    # For elearning collaborate session
-    if 'elearning' in info[0]:
-        # Open the elearning page
-        webbrowser.get(chrome_path).open('https://elearning.utdallas.edu')
-
-        sleep(3) # Wait for page to load. Sleep for 3 seconds
-        # Click Login if on the login screen
-        findAndClick('elearningLogin.png')
-
-        sleep(2)  # Wait for authentication
-        # Launch the session link
-        webbrowser.get(chrome_path).open(info[0])
-
-        # For the professors that created Regular class sessions
-        if 'Regular' in info:
-            sleep(5)
-            # Find and click on the regular class icon
-            findAndClick('regularClass.png')
-        else:
-            sleep(5)
-            # Find the course room button
-            findAndClick('courseRoom.png')
-            sleep(1)
-            # Find the join room button
-            findAndClick('joinCourseRoom.png')
-    # For webex meetings
-    elif 'webex' in info[0]:
-        # Go to the link
-        webbrowser.get(chrome_path).open(info[0])
-        sleep(10) # Wait for WebEx web client to load
-        # Find the join meeting button and start session
-        findAndClick('webexJoinMeeting.png')
 
 
 # Get the class schedule
@@ -186,7 +188,7 @@ def main():
     data = getClasses()
 
     # Check if the batch file exists or not
-    if os.path.exists("classAttender.bat") is False:
+    if 'Windows' in platform.system() and os.path.exists("classAttender.bat") is False:
         # Create the batch file
         batPath = createBatch()
         # Delete previous tasks
@@ -209,4 +211,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # openClass(["https://utdallas.webex.com/meet/kkhan"])
     main()
