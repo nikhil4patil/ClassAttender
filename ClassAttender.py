@@ -211,5 +211,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # openClass(["https://utdallas.webex.com/meet/kkhan"])
     main()
