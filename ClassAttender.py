@@ -10,7 +10,7 @@
         1) Read the classes.txt file to find the time and day of my classes. Along with the link and any other details.
         2) Create a batch file that will be executed by the Task Scheduler to run this script
         3) Create tasks in the Task Scheduler that runs the batch script whenever one of your sessions is about to begin
-        4) When executed, this script will check if any of your classes are about to begin in 3 minutes or began 3
+        4) When executed, this script will check if any of your classes are about to begin in 5 minutes or began 5
            minutes ago. If so, the script will launch the site and join the live session for you.
 """
 
