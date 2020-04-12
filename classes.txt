@@ -1,4 +1,4 @@
-# ClassName, ClassTime 12 hr clock AM/PM, Days 3 letter, Session links, <Any additional details you want to work with>
+# ClassName, ClassTime 12 hr clock AM/PM, Days 3 letter, Session link, <Any additional details you want to work with>
 
 ALGO, 08:30 AM, Tue Thu, https://elearning.utdallas.edu/webapps/collab-ultra/tool/collabultra?<course_id and stuff>, <Extra details>
 SPED, 10:00 AM, Mon Wed, <link/to/the/session>
