@@ -8,7 +8,7 @@
 
     Code:
         1) Read the classes.txt file to find the time and day of my classes. Along with the link and any other details.
-        2) Create a batch file that will be executed by the Task Scheduler to run this script
+        2) Create a batch file that will be executed by the Task Scheduler to run this script for Windows.
         3) Create tasks in the Task Scheduler that runs the batch script whenever one of your sessions is about to begin
         4) When executed, this script will check if any of your classes are about to begin in 5 minutes or began 5
            minutes ago. If so, the script will launch the site and join the live session for you.
@@ -24,10 +24,6 @@ from time import sleep
 import platform
 
 
-# Get the current time
-currTime = datetime.now()
-# Find today: MON, TUE, WED, THU, FRI, SAT, SUN
-today = currTime.strftime("%a").upper()
 # Define the path to chrome exe
 browser_path = r'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 # Path to python
@@ -41,7 +37,7 @@ def openClass(info):
         # Open the elearning page
         webbrowser.get(browser_path).open('https://elearning.utdallas.edu')
 
-        sleep(3) # Wait for page to load. Sleep for 3 seconds
+        sleep(3)  # Wait for page to load. Sleep for 3 seconds
         # Click Login if on the login screen
         findAndClick('elearningLogin.png')
 
@@ -65,7 +61,7 @@ def openClass(info):
     elif 'webex' in info[0]:
         # Go to the link
         webbrowser.get(browser_path).open(info[0])
-        sleep(10) # Wait for WebEx web client to load
+        sleep(10)  # Wait for WebEx web client to load
         # Find the join meeting button and start session
         findAndClick('webexJoinMeeting.png')
 
@@ -185,16 +181,32 @@ def deleteTasks():
 
 
 def main():
+    # Support for other OS
+    otherOS = False
+    # Stores the minute difference to the next class. 1440 minutes in a day
+    nextClass = 1441
+
+    # Get the current time
+    currTime = datetime.now()
+    # Find today: MON, TUE, WED, THU, FRI, SAT, SUN
+    today = currTime.strftime("%a").upper()
+
+    # Reads the classes.txt file and creates a dictionary with the data
     data = getClasses()
 
-    # Check if the batch file exists or not
-    if 'Windows' in platform.system() and os.path.exists("classAttender.bat") is False:
-        # Create the batch file
-        batPath = createBatch()
-        # Delete previous tasks
-        deleteTasks()
-        # Create tasks that start this script whenever a session is about to start
-        createTasks(data, batPath)
+    # Check if the current OS is Windows
+    if 'Windows' in platform.system():
+        # Check if  the batch file exists or not
+        if os.path.exists("classAttender.bat") is False:
+            # Create the batch file
+            batPath = createBatch()
+            # Delete previous tasks
+            deleteTasks()
+            # Create tasks that start this script whenever a session is about to start
+            createTasks(data, batPath)
+    else:
+        # If the script is running on non-windows machine
+        otherOS = True
 
     for item in data:
         classTime = item[1]
@@ -206,8 +218,20 @@ def main():
         # print(classTime.time(), currTime.time(), timeDiff)
 
         # If the session begins in or began 5 minutes ago, launch the session
-        if timeDiff < 5 and today in item[2]:
+        if timeDiff <= 5 and today in item[2]:
             openClass(item[3:])
+        # If on non-windows OS and did not launch the class
+        elif otherOS:
+            # Add the difference to the next closest class
+            if timeDiff < nextClass:
+                nextClass = timeDiff
+
+    # Instead of having tasks for other OS, the script will continuously run
+    if otherOS:
+        # Sleep until next class is about to start
+        sleep(nextClass)
+        # Run the script again
+        main()
 
 
 if __name__ == "__main__":
