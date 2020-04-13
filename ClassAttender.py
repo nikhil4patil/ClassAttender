@@ -128,7 +128,7 @@ def getClasses(filePath="classes.txt"):
             classDays = temp
 
             # Append info to data
-            data.append([className, classTime, classDays, info[3:]])
+            data.append([className, classTime, classDays, *info[3:]])
     return data
 
 
